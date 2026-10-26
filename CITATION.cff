@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the paper below."
+title: "Context-adaptive temporal scale weighting for overlap-aware far-field speaker diarization (reproduction code)"
+authors:
+  - family-names: Hothi
+    given-names: Vijay
+    orcid: "https://orcid.org/0009-0001-9808-9741"
+  - family-names: Gohil
+    given-names: Narendrasinh B.
+    orcid: "https://orcid.org/0000-0003-4885-5844"
+license: MIT
+preferred-citation:
+  type: unpublished
+  title: "Context-adaptive temporal scale weighting for overlap-aware far-field speaker diarization"
+  authors:
+    - family-names: Hothi
+      given-names: Vijay
+    - family-names: Gohil
+      given-names: Narendrasinh B.
+  notes: "Manuscript under revision"
+  year: 2026

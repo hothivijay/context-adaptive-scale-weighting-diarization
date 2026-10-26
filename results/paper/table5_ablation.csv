@@ -1,0 +1,6 @@
+Configuration,Dev (%),Eval (%),Delta eval vs previous row (pp)
+Baseline (DISPLACE-2024) [43] *,25.45,29.96,
++ MarbleNet VAD [37],23.3,27.21,-2.75
++ TitaNet-Large embeddings [38],24.6,26.75,-0.46
+"+ Multi-scale decoder, static weights [15]",23.43,25.76,-0.99
++ Dynamic scale weighting (full system),19.35,21.46,-4.3

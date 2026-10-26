@@ -1,0 +1,22 @@
+# Data preparation, augmentation, scoring and statistics.
+#
+# Tags:  [paper] value stated in the paper   [ours] chosen here (docs/03_reproducing_the_paper.md)
+
+seed: 42                                # [ours]
+
+augmentation:                           # paper, section "Implementation"
+  copies_per_recording: 1               # [ours] one augmented copy of every development recording
+  snr_db: [10, 20]                      # [paper] additive noise at 10-20 dB SNR
+  speed: [0.9, 1.1]                     # [paper] speed perturbation 0.9x-1.1x
+
+scoring:
+  collar: 0.0                           # [paper] zero-collar DER, Eq. (11)
+  ignore_overlap: false                 # [ours] overlap is scored (DISPLACE protocol); the paper asks to state it
+
+significance:                           # Algorithm 2
+  bootstrap_replicates: 10000           # [paper] B = 10 000
+  alpha: 0.05                           # [paper] 95 % percentile interval
+  seed: 0                               # [ours]
+
+conditions:                             # Tables 6 and 7
+  short_utterance_s: 2.0                # [paper] "short utterances (< 2 s)"

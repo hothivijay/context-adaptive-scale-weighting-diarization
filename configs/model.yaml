@@ -1,0 +1,36 @@
+# Reliability scorer, recurrent decoder, training and inference.
+# Eqs. (3)-(10), Algorithm 1 lines 6-15. Used by scripts/04_train.py and 05_diarize.py.
+#
+# Tags:  [paper] value stated in the paper (checked by tests/test_configs.py)
+#        [ours]  not stated in the paper; chosen here, reason in docs/03_reproducing_the_paper.md
+
+model:
+  num_scales: 5                         # [paper] Table 2, S = 5
+  emb_dim: 192                          # [paper] Table 2
+  channels: 32                          # [paper] Table 2, CNN output channels C
+  conv_repeats: 2                       # [paper] Table 2, convolution repetitions
+  kernel: 3                             # [paper] Table 2, kernel width k
+  context: 1                            # [paper] Table 2, context half-width c
+  lstm_layers: 3                        # [paper] Table 2
+  dropout: 0.5                          # [paper] Table 2
+  hidden: 224                           # [ours] gives ~1.55 M trainable parameters (Table 8: ~1.5 M)
+  bidirectional: false                  # [paper] Eq. (7) is written unidirectional; NeMo's MSDD is bidirectional
+
+training:
+  loss: bce                             # [paper] Eq. (9)
+  optimizer: adam                       # [paper] Table 2
+  lr: 0.001                             # [paper] Table 2
+  scheduler: cosine                     # [paper] Table 2, cosine annealing over all steps
+  epochs: 50                            # [ours] the paper does not report epochs
+  batch_size: 64                        # [ours]
+  chunk_steps: 50                       # [ours] 50 x 0.25 s = 12.5 s sequences (NeMo MSDD default)
+  prototype_source: oracle              # [ours] training prototypes from reference labels, as NeMo trains MSDD
+  impostor_prob: 0.1                    # [ours] share of pairs with a prototype from another session (target: silent)
+  grad_clip: 5.0                        # [ours] guards against rare exploding LSTM gradients
+  num_workers: 2
+  seed: 42                              # [ours] change with --seed for the multi-seed runs Table 9 needs
+
+inference:
+  threshold: 0.5                        # [paper] Table 2
+  median_steps: 3                       # [ours] "smooth" (Alg. 1 line 15): 3-step median filter, 0.75 s
+  batch_size: 256                       # [ours] chunk x pair items per forward pass

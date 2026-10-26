@@ -1,0 +1,9 @@
+# Table 6. Evaluation DER by SNR
+
+Copied from the paper. Not a reproduced result.
+
+| SNR condition | DER (%) | Sessions |
+|---|---|---|
+| Low (5-10 dB) | 33.05 | 12 |
+| Medium (10-15 dB) | 19.78 | 14 |
+| High (15-20 dB) | 11.87 | 6 |

@@ -1,0 +1,19 @@
+Parameter,Value
+Temporal scales S,5
+Window lengths (s),"1.50, 1.25, 1.00, 0.75, 0.50"
+Shift lengths (s),"0.750, 0.625, 0.500, 0.375, 0.250"
+Window overlap (%),50
+Static-baseline scale weights,"1, 1, 1, 1, 1"
+Embedding dimension,192
+VAD overlap tolerance (s),0.3
+CNN output channels C,32
+Convolution repetitions,2
+Convolution kernel width k,3
+Scorer context half-width c,1
+LSTM layers,3
+Dropout rate,0.5
+Loss function,Binary cross-entropy
+Optimizer,"Adam, cosine annealing"
+Learning rate,1 x 10^-3
+Inference threshold,0.5
+Sampling rate (Hz),16 000

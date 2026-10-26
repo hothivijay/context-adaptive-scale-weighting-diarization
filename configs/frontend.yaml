@@ -1,0 +1,38 @@
+# Front end: speech regions, five-scale windows, embeddings, clustering.
+# Algorithm 1, lines 1-5. Used by scripts/03_extract_embeddings.py.
+#
+# Tags:  [paper] value stated in the paper (checked by tests/test_configs.py)
+#        [ours]  not stated in the paper; chosen here, reason in docs/03_reproducing_the_paper.md
+
+sample_rate: 16000                      # [paper] Table 2
+
+vad:
+  # MarbleNet [37]. The paper does not name a checkpoint; this is NVIDIA's
+  # multilingual frame-level MarbleNet (20 ms frames).
+  model: nvidia/Frame_VAD_Multilingual_MarbleNet_v2.0   # [ours] Hugging Face id; NGC alternative: vad_multilingual_frame_marblenet
+  onset: 0.5                            # [ours] speech starts when p >= onset
+  offset: 0.3                           # [ours] speech ends when p < offset
+  pad_onset: 0.1                        # [ours] seconds added before each region
+  pad_offset: 0.1                       # [ours] seconds added after each region
+  min_off: 0.3                          # [paper] "VAD overlap tolerance 0.3 s", read as: bridge pauses < 0.3 s
+  min_on: 0.2                           # [ours] drop regions shorter than this
+  chunk_s: 60                           # [ours] audio processed in 60 s pieces (GPU memory)
+
+segmentation:
+  windows_s: [1.50, 1.25, 1.00, 0.75, 0.50]          # [paper] Table 2
+  shifts_s: [0.750, 0.625, 0.500, 0.375, 0.250]      # [paper] Table 2, 50 % overlap
+  min_segment_s: 0.05                   # [ours] NeMo's floor for the clipped last window
+
+embeddings:
+  model: titanet_large                  # [paper] TitaNet-Large [38]
+  dim: 192                              # [paper] Table 2
+  batch_size: 64                        # [ours] fits an 8 GB GPU
+
+clustering:
+  static_weights: [1, 1, 1, 1, 1]       # [paper] Table 2, used to fuse the per-scale affinities
+  max_num_speakers: 8                   # [ours] upper bound for Eq. (2); Table 3 reports up to 8 speakers
+  max_rp_threshold: 0.25                # [ours] NME-SC default [39]
+  sparse_search_volume: 30              # [ours] NME-SC default
+  max_points: 3000                      # [ours] steps used for the eigen-analysis of long sessions
+  per_scale_counts: false               # [ours] true also reports k_s of Eq. (2) for every scale (slower)
+  min_cluster_steps: 40                 # [ours] clusters under 40 steps (10 s) are merged into the nearest one; 0 = off
